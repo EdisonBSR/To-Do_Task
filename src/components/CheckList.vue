@@ -4,63 +4,52 @@
             <b-form-input v-model="text" placeholder="Ingresa tu pendiente" autofocus></b-form-input>
             <b-button type="submit" variant="primary">Agregar</b-button>
         </b-form>
-        <div id="containerTables">
-            <table class="tableTasks">
-                <tr>
-                    <th id="tasks">Lista de tareas pendientes</th>
-                </tr>
-                <tr v-for="(task, index) in tasks" :key="index" style="border: 1px solid black;">
-                    <td style=" border: 1px solid black; width: 300px;">
-                        <div style="display: flex;flex-direction: row; justify-content: center; margin-bottom: 10px;">
-                            <button type="checkbox" @click=" saveDone(index)" style="margin-right: 15px;height: 20px;">
-                            </button>
-                            <!-- <input type="checkbox" @click=" saveDone(index)" style="height: 20px;border: 1 solid black"> -->
-                            <!-- <span> {{ task }}</span> -->
-                            <textarea disabled :value="task" style="width: 90%; height: 50px;"></textarea>
-                        </div>
-
-                        <div id=" btnActionUpdateDelete">
-                            <button class="btnUpdate"><b-icon variant="primary"
-                                    icon="pencil-square"></b-icon>Actualizar</button>
+        <div id="containerCards">
+            <b-card title="Tareas por realizar" tag="article" class="mb-2">
+                <b-card-text v-for="(task, index) in tasks" :key="index" class="CardTasks">
+                    <b-row class="text-center">
+                        <b-col> <button id="btnDone" @click=" saveDone(index)">
+                                <b-icon icon="circle"></b-icon>
+                            </button></b-col>
+                        <b-col cols="7" style="text-align: justify"><span @click="updateTask(index)">
+                                {{ task }}</span>
+                        </b-col>
+                        <b-col>
+                            <!-- <button name="btnTaskUpdate" id="btnUpdate" @click="updateTask(index)">
+                                <b-icon variant="primary" icon="pencil-square"></b-icon></button> -->
                             <button class="btnDelete" @click="deleteTask(tasks, index)">
                                 <b-icon variant="danger" icon="trash-fill"></b-icon>
-                                Borrar</button>
-                        </div>
-                    </td>
-                </tr>
-            </table>
+                            </button>
+                        </b-col>
+                    </b-row>
 
-            <table class="tableTasks">
-                <tr>
-                    <th id="doneTasks">Lista de tareas realizadas</th>
-                </tr>
-                <tr v-for="(doneTask, index) in doneTasks" :key="index" style="border: 1px solid black;">
-                    <td style="border: 1px solid black; width: 300px;">
-                        <button id="btnRemoveDo" @click="removeDone(index)"> <b-icon icon="check2-circle"
-                                variant="success"></b-icon> </button>
 
-                        <span style="text-decoration-line:line-through"> {{ doneTask }}</span>
-                        <button class="btnDelete done" @click="deleteTask(doneTasks, index)">
-                            <b-icon variant="danger" icon="trash-fill"></b-icon>
-                            Borrar</button>
-                        <!-- <input type="text" disabled :value="doneTask"> -->
 
-                    </td>
 
-                </tr>
-            </table>
+                </b-card-text>
+            </b-card>
+            <b-card title="Tarea realizadas" tag="article" class="mb-2">
+                <b-card-text v-for="(doneTask, index) in doneTasks" :key="index">
+                    <b-row class="text-center">
+                        <b-col> <button id="btnRemoveDo" @click="removeDone(index)"> <b-icon icon="check2-circle"
+                                    style="height: 25px"></b-icon> </button></b-col>
+                        <b-col cols="8"><span style="text-decoration-line:line-through"> {{ doneTask }}</span></b-col>
+                        <b-col><button class="btnDelete done" @click="deleteTask(doneTasks, index)">
+                                <b-icon variant="danger" icon="trash-fill"></b-icon>
+                            </button></b-col>
+                    </b-row>
+                </b-card-text>
+            </b-card>
         </div>
 
-        <AlertModal ref="AlertModal" v-show="false" />
     </div>
 </template>
 
 <script>
-import AlertModal from './AlertModal.vue';
+import Swal from 'sweetalert2'
 export default {
     name: 'CheckList',
     components: {
-        AlertModal
     },
     data() {
         return {
@@ -88,21 +77,62 @@ export default {
             this.tasks.splice(index, 1)
             this.saveLocal()
         },
+        updateTask(index) {
+            Swal.fire({
+                title: "Ingrese el nuevo contenido del pendiente",
+                input: "text",
+                inputAttributes: {
+                    autocapitalize: "off"
+                },
+                showCancelButton: true,
+                confirmButtonText: "Actualizar",
+                showLoaderOnConfirm: true,
+                preConfirm: (task) => {
+                    if (task.trim() !== '') {
+                        this.tasks[index] = task
+                        this.tasks = [...this.tasks]
+                        this.saveLocal()
+                    } else {
+                        Swal.fire({
+                            title: "Cambio en tarea vacio,no es posible actualizar",
+                            icon: "warning",
+                            showCloseButton: true
+                        })
+                    }
+                }
+            })
+        },
         removeDone(index) {
-            console.log("remover done task")
             this.tasks.push(this.doneTasks[index])
             this.doneTasks.splice(index, 1)
             this.saveLocal()
         },
         deleteTask(tasks, index) {
-            console.log(index)
-            // tasks.splice(index, 1)
-            console.log(tasks.splice(index, 1))
-            this.showModal()
-            this.saveLocal()
-        },
-        showModal() {
-            this.$refs.AlertModal.showModal();
+            try {
+                Swal.fire({
+                    title: "Confirma si deseas eliminar la tarea: ",
+                    text: this.tasks[index],
+                    showDenyButton: true,
+                    confirmButtonText: "Eliminar",
+                    denyButtonText: `Cancelar`
+
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        tasks.splice(index, 1)
+                        this.saveLocal()
+                        Swal.fire({
+                            title: "Borrada!",
+                            text: "La tarea ha sido borrada.",
+                            icon: "success"
+                        });
+                    } else if (result.isDenied) {
+                        Swal.fire("Operacion cancelada", "", "");
+                    }
+                });
+            } catch (error) {
+                alert("Se encontro el siguiente error", error)
+            }
+
         },
         saveLocal() {
             localStorage.setItem('tasks', JSON.stringify(this.tasks));
@@ -110,10 +140,10 @@ export default {
         },
         getLocal() {
             if (localStorage.tasks) {
-                this.tasks = JSON.parse(localStorage.getItem('tasks'));
+                this.tasks = [...JSON.parse(localStorage.getItem('tasks'))];
             }
             if (localStorage.doneTasks) {
-                this.doneTasks = JSON.parse(localStorage.getItem('doneTasks'));
+                this.doneTasks = [...JSON.parse(localStorage.getItem('doneTasks'))];
             }
         }
     }
@@ -135,65 +165,58 @@ export default {
     font-size: 1rem;
 }
 
-textarea {
-    resize: none;
+.CardTasks {
+    margin-bottom: 20px;
 }
 
-#containerTables {
+#containerCards {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
     gap: 25px;
     justify-content: center;
     margin-bottom: 50px;
+    margin-top: 20px;
 }
 
-.tableTasks {
-    border: 1px solid rgb(32, 33, 33);
-    margin-top: 30px;
+.mb-2 {
     width: 400px;
 }
 
-.tableTasks tr th {
-    padding: 15px;
-    height: 30px;
+
+
+#btnDone {
+    border: 0;
+    height: 25px;
+    background-color: rgba(143, 234, 52, 0.279);
+    border-radius: 10px;
 }
 
-.tableTasks tr td {
-    padding: 10px;
-    text-align: justify;
-    height: auto;
+#btnDone:hover {
+    background-color: rgba(25, 237, 92, 0.726);
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 5px 5px rgba(71, 70, 70, 0.669);
 }
 
 
-.tableTasks #tasks {
-    background: rgb(241, 188, 42);
-}
-
-.tableTasks #doneTasks {
-    background: rgb(46, 242, 89);
-}
-
-#btnActionUpdateDelete {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-
-}
 
 .btnDelete {
     border: 0;
     border-radius: 10px;
 }
 
-.btnUpdate {
+#btnUpdate {
     border: 0;
+    margin-bottom: 5px;
     border-radius: 10px;
 }
 
 #btnRemoveDo {
+    float: left;
     border: 0;
+    height: 25px;
     border-radius: 10px;
+    background-color: rgba(143, 234, 52, 0.279);
 }
 
 #btnRemoveDo:hover {
@@ -212,7 +235,7 @@ textarea {
     box-shadow: 0 5px 5px rgba(71, 70, 70, 0.669);
 }
 
-.btnUpdate:hover {
+#btnUpdate:hover {
     background: rgba(52, 230, 243, 0.701);
     transform: translateY(-3px) scale(1.05);
     box-shadow: 0 5px 5px rgba(71, 70, 70, 0.669);
