@@ -6,7 +6,7 @@
         </b-form>
         <div id="containerCards">
             <b-card title="Tareas por realizar" tag="article" class="mb-2">
-                <b-card-text v-for="(task, index) in tasks" :key="index" class="CardTasks">
+                <b-card-text v-for="(task, index) in tasks" :key="index" class="CardDo">
                     <b-row class="text-center">
                         <b-col> <button id="btnDone" @click=" saveDone(index)">
                                 <b-icon icon="circle"></b-icon>
@@ -29,7 +29,7 @@
                 </b-card-text>
             </b-card>
             <b-card title="Tarea realizadas" tag="article" class="mb-2">
-                <b-card-text v-for="(doneTask, index) in doneTasks" :key="index">
+                <b-card-text v-for="(doneTask, index) in doneTasks" :key="index" class="CardDone">
                     <b-row class="text-center">
                         <b-col> <button id="btnRemoveDo" @click="removeDone(index)"> <b-icon icon="check2-circle"
                                     style="height: 25px"></b-icon> </button></b-col>
@@ -165,9 +165,6 @@ export default {
     font-size: 1rem;
 }
 
-.CardTasks {
-    margin-bottom: 20px;
-}
 
 #containerCards {
     display: flex;
@@ -183,6 +180,17 @@ export default {
     width: 400px;
 }
 
+.CardDo:hover {
+    background-color: rgba(60, 208, 241, 0.463);
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 5px 5px rgba(71, 70, 70, 0.669);
+}
+
+.CardDone:hover {
+    background-color: rgba(44, 245, 121, 0.457);
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 5px 5px rgba(71, 70, 70, 0.669);
+}
 
 
 #btnDone {

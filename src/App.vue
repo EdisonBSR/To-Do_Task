@@ -10,8 +10,8 @@
       <nav>
         <div id="container-nav-router">
           <router-link to="/">To-Do</router-link>
-          <router-link to="/next">Next Page</router-link>
-
+          <router-link to="/breakoutGame">Breakout Game</router-link>
+          <router-link to="/chat"> Socket Chat</router-link>
         </div>
       </nav>
       <router-view id="routerView" />

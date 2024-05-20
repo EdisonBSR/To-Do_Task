@@ -1,7 +1,8 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import HomeView from "../views/HomeView.vue";
-import NextPage from "../views/PageNext.vue";
+import BreakoutView from "../views/BreakoutView.vue";
+import ChatView from "../views/ChatView.vue";
 Vue.use(VueRouter);
 
 const routes = [
@@ -11,9 +12,14 @@ const routes = [
     component: HomeView,
   },
   {
-    path: "/next",
-    name: "next",
-    component: NextPage,
+    path: "/breakoutGame",
+    name: "breakout",
+    component: BreakoutView,
+  },
+  {
+    path: "/chat",
+    name: "chat",
+    component: ChatView,
   },
 ];
 
