@@ -31,9 +31,12 @@ export default {
             lives: 3,
         }
     },
-    // mounted() {
-    //     this.pinterCanvas()
-    // },
+    mounted() {
+        this.pinterCanvas()
+
+    },
+    beforeMount() {
+    },
     methods: {
         draw() {
             this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
