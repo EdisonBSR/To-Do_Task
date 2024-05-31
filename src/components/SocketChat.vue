@@ -219,6 +219,7 @@ export default {
         checkUser() {
             if (!this.inputUser) {
                 this.socket.disconnect();
+                //emitir evento users para quitar el nombre del usuario bn desde aca no se puede ver eso :D
             } else {
                 this.socket.connect();
                 this.socket.emit('users', this.inputUser);
