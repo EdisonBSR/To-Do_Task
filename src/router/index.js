@@ -3,6 +3,8 @@ import VueRouter from "vue-router";
 import HomeView from "../views/HomeView.vue";
 import BreakoutView from "../views/BreakoutView.vue";
 import ChatView from "../views/ChatView.vue";
+import WeatherView from "@/views/WeatherView.vue";
+import BattleView from "@/views/BattleView.vue";
 Vue.use(VueRouter);
 
 const routes = [
@@ -12,7 +14,7 @@ const routes = [
     component: HomeView,
   },
   {
-    path: "/breakoutGame",
+    path: "/breakout-Game",
     name: "breakout",
     component: BreakoutView,
   },
@@ -20,6 +22,16 @@ const routes = [
     path: "/chat",
     name: "chat",
     component: ChatView,
+  },
+  {
+    path: "/clima",
+    name: "weather",
+    component: WeatherView,
+  },
+  {
+    path: "/Astucia-Naval",
+    name: "battle",
+    component: BattleView,
   },
 ];
 
