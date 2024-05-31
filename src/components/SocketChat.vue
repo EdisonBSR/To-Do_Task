@@ -22,10 +22,13 @@ body {
 #form {
     background: rgba(0, 0, 0, 0.15);
     padding: 0.25rem;
-    display: flex;
+    /* display: flex; */
     height: 3rem;
     box-sizing: border-box;
     backdrop-filter: blur(10px);
+    position: fixed;
+    bottom: 0;
+
 }
 
 .input {
@@ -46,8 +49,16 @@ body {
     list-style-type: none;
     margin: 0;
     padding: 0;
-    height: fit-content;
     padding: 10px;
+}
+
+/* #messages {
+    height: 100%;
+    background: teal;
+} */
+
+.list-user {
+    height: max-content;
 }
 
 #messages>li {
@@ -78,6 +89,10 @@ body {
     margin-left: 10px;
 }
 
+/* #messages>li:last-child {
+    margin-bottom: 70px;
+} */
+
 .userConnect {
     color: black;
     text-align: left;
@@ -96,6 +111,7 @@ body {
     color: #495057;
     font-size: x-large;
     font-family: math;
+
 }
 
 .row {
@@ -107,9 +123,20 @@ body {
     padding-right: 0;
     padding-left: 0;
 }
+
+#messageWriting {
+    color: rgba(255, 255, 255, 0.89);
+    opacity: 1;
+}
+
+#containerChat {
+    margin-bottom: 50px;
+    height: 100%;
+    background: rgba(3, 180, 180, 0.89);
+}
 </style>
 <template>
-    <div id="app" class="row">
+    <div class="row">
         <div class="col-6 col-md-4 list-user">
             <p>Usuarios</p>
             <ul id="usersOnLines" class="list-group"></ul>
@@ -118,15 +145,19 @@ body {
             <div id="chat">SOCKET.IO CHAT</div>
             <div data-bs-spy="scroll" data-bs-target="#list-example" data-bs-smooth-scroll="true"
                 class="scrollspy-example" tabindex="0">
-                <ul id="messages">
-                    <li v-for="(message, index) in messages" :key=index :class="{ 'Mymsg': message.user == inputUser }">
-                        {{ message.user }}: {{ message.msg }}
-                    </li>
-                </ul>
-                <p id=" messageWriting">
-                    {{ messageWriting }}
-                </p>
-                <form id="form" @submit="sendMessage">
+                <div id="containerChat">
+                    <ul id="messages">
+                        <li v-for="(message, index) in messages" :key=index
+                            :class="{ 'Mymsg': message.user == inputUser }">
+                            {{ message.user }}: {{ message.msg }}
+                        </li>
+                    </ul>
+                    <p id="messageWriting">
+                        {{ messageWriting }}
+                    </p>
+                </div>
+
+                <form id="form" @submit.prevent="sendMessage">
                     <input class="input" v-model="inputMessage" @keyup="typing" autocomplete="off"
                         placeholder="Escribir mensaje" />
                     <input class="input" v-model="inputUser" @keyup="checkUser" autocomplete="off" placeholder="Usuario"
@@ -145,8 +176,8 @@ export default {
     data() {
         return {
             socket: io('localhost:3001'),
-            inputUser: '',
-            inputMessage: '',
+            inputUser: "",
+            inputMessage: "",
             messages: [],
             messageWriting: '',
             usersOnLines: [],
@@ -169,11 +200,19 @@ export default {
                 console.log(userWriting)
             }
             this.messageWriting = userWriting.length > 0 ? `${userWriting.join(" ")} está escribiendo...` : '';
+            // window.scrollTo(0, document.body.scrollHeight);
+
         });
 
         this.socket.on('chat message', (msg, user,) => {
-            this.messages.push({ msg, user });
-
+            if (this.inputUser != "") {
+                this.socket.connect();
+                this.messages.push({ msg, user });
+                window.scrollTo(0, document.body.scrollHeight);
+            }
+            else {
+                this.socket.disconnect();
+            }
         });
     },
     methods: {
@@ -186,6 +225,10 @@ export default {
             }
         },
         typing() {
+            console.log("escribiendo")
+            console.log(this.inputMessage.trim() == "")
+
+
             if (this.coutKey == 0 && this.inputMessage.length > 0 && this.inputUser.length > 0) {
                 this.socket.emit("writing", this.inputUser);
                 this.coutKey = 1;
@@ -196,10 +239,11 @@ export default {
         },
         sendMessage(e) {
             e.preventDefault();
-            console.log(this.inputMessage.length > 0)
-            if (this.inputMessage.length > 0 && this.inputUser.length > 0) {
+            if (this.inputMessage != "" && this.inputUser != "") {
                 this.socket.emit('chat message', this.inputMessage, this.inputUser);
                 this.inputMessage = ""
+                console.log("Mensaje vacio")
+                console.log(this.inputMessage)
             }
 
         }

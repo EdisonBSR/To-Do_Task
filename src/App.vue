@@ -7,7 +7,7 @@
     </b-jumbotron>
 
     <div id="container">
-      <nav>
+      <nav style="width: 20%;">
         <div id="container-nav-router">
           <router-link to="/">To-Do</router-link>
           <router-link to="/clima">Clima</router-link>
@@ -16,7 +16,7 @@
           <router-link to="/Astucia-Naval">Astucia Naval</router-link>
         </div>
       </nav>
-      <router-view id="routerView" />
+      <router-view id="routerView" style="width: 70%;" />
     </div>
 
   </div>
@@ -33,7 +33,7 @@
 
 #container {
   display: flex;
-  flex-direction: row;
+  flex-direction: row
 }
 
 .jumbotron {
