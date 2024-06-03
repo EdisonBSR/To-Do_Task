@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div id="container-naval-battle">
         <div id="container">
             <form id="form-1" action="" @submit.prevent="sendPlayer">
                 <input id="user-1" v-model="nickNamePlayer" class="user" type="text" placeholder="Ingrese su nombre"
@@ -24,119 +24,11 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <th scope="row">A</th>
-                        <td>
-                            <button class="boat-position" id="00" type="button" value="00"
-                                v-on:click="boatPosition"></button>
-                        </td>
-                        <td>
-                            <button class="boat-position" id="01" type="button" value="01"
-                                v-on:click="boatPosition"></button>
-                        </td>
-                        <td>
-                            <button class="boat-position" id="02" type="button" value="02"
-                                v-on:click="boatPosition"></button>
-                        </td>
-                        <td>
-                            <button class="boat-position" id="03" type="button" value="03"
-                                v-on:click="boatPosition"></button>
-                        </td>
-                        <td>
-                            <button class="boat-position" id="04" type="button" value="04"
-                                v-on:click="boatPosition"></button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th scope="row">B</th>
-                        <td scope="row">
-                            <button class="boat-position" id="10" type="button" value="10"
-                                v-on:click="boatPosition"></button>
-                        </td>
-                        <td>
-                            <button class="boat-position" id="11" type="button" value="11"
-                                v-on:click="boatPosition"></button>
-                        </td>
-                        <td>
-                            <button class="boat-position" id="12" type="button" value="12"
-                                v-on:click="boatPosition"></button>
-                        </td>
-                        <td>
-                            <button class="boat-position" id="13" type="button" value="13"
-                                v-on:click="boatPosition"></button>
-                        </td>
-                        <td>
-                            <button class="boat-position" id="14" type="button" value="14"
-                                v-on:click="boatPosition"></button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th scope="row">C</th>
-                        <td scope="row">
-                            <button class="boat-position" id="20" type="button" value="20"
-                                v-on:click="boatPosition"></button>
-                        </td>
-                        <td>
-                            <button class="boat-position" id="21" type="button" value="21"
-                                v-on:click="boatPosition"></button>
-                        </td>
-                        <td>
-                            <button class="boat-position" id="22" type="button" value="22"
-                                v-on:click="boatPosition"></button>
-                        </td>
-                        <td>
-                            <button class="boat-position" id="23" type="button" value="23"
-                                v-on:click="boatPosition"></button>
-                        </td>
-                        <td>
-                            <button class="boat-position" id="24" type="button" value="24"
-                                v-on:click="boatPosition"></button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th scope="row">D</th>
-                        <td scope="row" name="1">
-                            <button class="boat-position" id="30" type="button" value="30"
-                                v-on:click="boatPosition"></button>
-                        </td>
-                        <td>
-                            <button class="boat-position" id="31" type="button" value="31"
-                                v-on:click="boatPosition"></button>
-                        </td>
-                        <td>
-                            <button class="boat-position" id="32" type="button" value="32"
-                                v-on:click="boatPosition"></button>
-                        </td>
-                        <td>
-                            <button class="boat-position" id="33" type="button" value="33"
-                                v-on:click="boatPosition"></button>
-                        </td>
-                        <td>
-                            <button class="boat-position" id="34" type="button" value="34"
-                                v-on:click="boatPosition"></button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th scope="row">E</th>
-                        <td scope="row">
-                            <button class="boat-position" id="40" type="button" value="40"
-                                v-on:click="boatPosition"></button>
-                        </td>
-                        <td>
-                            <button class="boat-position" id="41" type="button" value="41"
-                                v-on:click="boatPosition"></button>
-                        </td>
-                        <td>
-                            <button class="boat-position" id="42" type="button" value="42"
-                                v-on:click="boatPosition"></button>
-                        </td>
-                        <td>
-                            <button class="boat-position" id="43" type="button" value="43"
-                                v-on:click="boatPosition"></button>
-                        </td>
-                        <td>
-                            <button class="boat-position" id="44" type="button" v-on:click="boatPosition"
-                                value="44"></button>
+                    <tr v-for="(i, row) in 5" :key="i">
+                        <th scope="row">{{ rightIndex[row] }}</th>
+                        <td v-for="(i, column) in 5" :key="i">
+                            <button class="boat-position" :id="`${row}${column}`" type=" button"
+                                :value="`${row}${column}`" v-on:click="boatPosition"></button>
                         </td>
                     </tr>
                 </tbody>
@@ -158,119 +50,11 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <th scope="row">A</th>
-                        <td>
-                            <button class="boat-position" id="200" type="button" value="00"
-                                v-on:click="attack"></button>
-                        </td>
-                        <td>
-                            <button class="boat-position" id="201" type="button" value="01"
-                                v-on:click="attack"></button>
-                        </td>
-                        <td>
-                            <button class="boat-position" id="202" type="button" value="02"
-                                v-on:click="attack"></button>
-                        </td>
-                        <td>
-                            <button class="boat-position" id="203" type="button" value="03"
-                                v-on:click="attack"></button>
-                        </td>
-                        <td>
-                            <button class="boat-position" id="204" type="button" value="04"
-                                v-on:click="attack"></button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th scope="row">B</th>
-                        <td>
-                            <button class="boat-position" id="210" type="button" value="10"
-                                v-on:click="attack"></button>
-                        </td>
-                        <td>
-                            <button class="boat-position" id="211" type="button" value="11"
-                                v-on:click="attack"></button>
-                        </td>
-                        <td>
-                            <button class="boat-position" id="212" type="button" value="12"
-                                v-on:click="attack"></button>
-                        </td>
-                        <td>
-                            <button class="boat-position" id="213" type="button" value="13"
-                                v-on:click="attack"></button>
-                        </td>
-                        <td>
-                            <button class="boat-position" id="214" type="button" value="14"
-                                v-on:click="attack"></button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th scope="row">C</th>
-                        <td>
-                            <button class="boat-position" id="220" type="button" value="20"
-                                v-on:click="attack"></button>
-                        </td>
-                        <td>
-                            <button class="boat-position" id="221" type="button" value="21"
-                                v-on:click="attack"></button>
-                        </td>
-                        <td>
-                            <button class="boat-position" id="222" type="button" value="22"
-                                v-on:click="attack"></button>
-                        </td>
-                        <td>
-                            <button class="boat-position" id="223" type="button" value="23"
-                                v-on:click="attack"></button>
-                        </td>
-                        <td>
-                            <button class="boat-position" id="224" type="button" value="24"
-                                v-on:click="attack"></button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th scope="row">D</th>
-                        <td>
-                            <button class="boat-position" id="230" type="button" value="30"
-                                v-on:click="attack"></button>
-                        </td>
-                        <td>
-                            <button class="boat-position" id="231" type="button" value="31"
-                                v-on:click="attack"></button>
-                        </td>
-                        <td>
-                            <button class="boat-position" id="232" type="button" value="32"
-                                v-on:click="attack"></button>
-                        </td>
-                        <td>
-                            <button class="boat-position" id="233" type="button" value="33"
-                                v-on:click="attack"></button>
-                        </td>
-                        <td>
-                            <button class="boat-position" id="234" type="button" value="34"
-                                v-on:click="attack"></button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th scope="row">E</th>
-                        <td>
-                            <button class="boat-position" id="240" type="button" value="40"
-                                v-on:click="attack"></button>
-                        </td>
-                        <td>
-                            <button class="boat-position" id="241" type="button" value="41"
-                                v-on:click="attack"></button>
-                        </td>
-                        <td>
-                            <button class="boat-position" id="242" type="button" value="42"
-                                v-on:click="attack"></button>
-                        </td>
-                        <td>
-                            <button class="boat-position" id="243" type="button" value="43"
-                                v-on:click="attack"></button>
-                        </td>
-                        <td>
-                            <button class="boat-position" id="244" type="button" v-on:click="attack"
-                                value="44"></button>
+                    <tr v-for="(i, row) in 5" :key="i">
+                        <th scope="row">{{ rightIndex[row] }}</th>
+                        <td v-for="(j, column) in 5 " :key="j">
+                            <button class="boat-position" :id="`2${row}${column}`" type="button"
+                                :value="`${row}${column}`" v-on:click="attack"></button>
                         </td>
                     </tr>
                 </tbody>
@@ -286,6 +70,7 @@ export default {
         return {
             socket: io('localhost:3002'),
             nickNamePlayer: "",
+            rightIndex: ["A", "B", "C", "D", "E"],
             player1: "",
             player2: "",
             espC: "",
@@ -384,7 +169,15 @@ export default {
             }
 
             if (this.score == 5) {
-                this.socket.emit("winner", user);
+
+                let winner = [{ "player1": this.player1, "score": 0 }, { "player2": this.player2, "score": 0 }]
+                if (winner[0].player1 == user) {
+                    winner[0].score++
+                } else if (winner[1].player2 == user) {
+                    winner[1].score++
+                }
+                this.socket.emit("winner", user, winner);
+
                 alert(`GANADOR ¡${user}!`);
                 // location.reload();
             }
@@ -471,7 +264,8 @@ export default {
                 this.boardPosition[row][column] = this.ID_BOAT;
                 const ID = event.target.getAttribute("id");
                 const BOAT = document.createElement("span");
-                BOAT.className += "bi bi-rocket-takeoff";
+                BOAT.className += "material-icons";
+                BOAT.innerText = "directions_boat"
                 const BUTTON = document.getElementById(`${ID}`);
                 BUTTON.disabled = true;
                 BUTTON.style.background = "#64FB8D";
@@ -493,6 +287,8 @@ export default {
 }
 </script>
 <style scoped>
+@import url("https://fonts.googleapis.com/icon?family=Material+Icons");
+
 body {
     display: flex;
     flex-direction: row;
@@ -524,10 +320,11 @@ form {
     text-align: center;
 }
 
-.table {
+.table-bordered {
     width: 500px;
     height: 450px;
 }
+
 
 .table-bordered td,
 .table-bordered th {

@@ -7,7 +7,7 @@
     </b-jumbotron>
 
     <div id="container">
-      <nav style="width: 20%;">
+      <nav style="min-width: 20%;">
         <div id="container-nav-router">
           <router-link to="/">To-Do</router-link>
           <router-link to="/clima">Clima</router-link>
@@ -16,7 +16,7 @@
           <router-link to="/Astucia-Naval">Astucia Naval</router-link>
         </div>
       </nav>
-      <router-view id="routerView" style="width: 70%;" />
+      <router-view id="routerView" />
     </div>
 
   </div>
@@ -68,5 +68,6 @@ nav a.router-link-exact-active {
 
 #routerView {
   margin: 0 auto;
+  margin: 10px;
 }
 </style>
