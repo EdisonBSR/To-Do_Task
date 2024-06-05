@@ -10,7 +10,8 @@
                         <div id="Container-Card-Weather">
                             <p>Pronostico: {{
                                 this.weatherDescription }} </p> <img
-                                :src="`https://openweathermap.org/img/wn/${this.icon}@2x.png`" alt="iamegnejjeje">
+                                :src="`https://openweathermap.org/img/wn/${this.icon}@2x.png`"
+                                alt="icono con relacion al clima">
 
                         </div>
                         <p class="infoP">Temperatura: <span>{{ this.temp }} °C </span></p>

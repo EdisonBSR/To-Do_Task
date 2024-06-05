@@ -1,6 +1,10 @@
 <template>
-    <canvas id="myCanvas" width="480" height="320">
-    </canvas>
+    <div>
+        <canvas id="myCanvas" width="480" height="320">
+        </canvas>
+        <button type="button" v-on:click="start"> Comenzar</button>
+    </div>
+
 </template>
 <script>
 export default {
@@ -29,15 +33,19 @@ export default {
             bricks: [],
             score: 0,
             lives: 3,
+            btnStart: true,
+            interval: null,
+
         }
+
     },
     mounted() {
         this.pinterCanvas()
 
     },
-    beforeMount() {
-    },
     methods: {
+
+
         draw() {
             this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
             this.drawBricks()
@@ -73,7 +81,7 @@ export default {
                 }
 
             }
-            requestAnimationFrame(this.draw);
+            this.interval = requestAnimationFrame(this.draw);
         },
         drawBall() {
             this.ctx.beginPath()
@@ -99,7 +107,6 @@ export default {
                     this.bricks[c][r] = { x: 0, y: 0, status: 1 };
                 }
             }
-            this.draw()
         },
         drawPaddle() {
             if (this.rightPressed && this.paddleX < this.canvas.width - this.PADDLE_WIDTH) {
@@ -182,9 +189,20 @@ export default {
             this.ctx.font = "16px Arial";
             this.ctx.fillStyle = "#0095DD";
             this.ctx.fillText("Lives: " + this.lives, this.canvas.width - 65, 20);
+        },
+        start() {
+            if (this.btnStart) {
+                const button = document.querySelector("button");
+                button.innerText = "Comenzar"
+                this.draw()
+                this.btnStart = false
+            } else if (!this.btnStart) {
+                const button = document.querySelector("button");
+                button.innerText = "Reanudar"
+                this.btnStart = true
+                cancelAnimationFrame(this.interval)
+            }
         }
-
-
 
     },
 }
@@ -199,5 +217,11 @@ canvas {
     background: #eee;
     display: block;
     margin: 0 auto;
+}
+
+button {
+    margin-top: 10px;
+    border-radius: 5px;
+    border: 0px;
 }
 </style>

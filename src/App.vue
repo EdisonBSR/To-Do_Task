@@ -7,16 +7,16 @@
     </b-jumbotron>
 
     <div id="container">
-      <nav style="min-width: 20%;">
+      <nav style="min-width: 10%;">
         <div id="container-nav-router">
           <router-link to="/">To-Do</router-link>
           <router-link to="/clima">Clima</router-link>
           <router-link to="/chat"> Socket Chat</router-link>
-          <router-link to="/breakoutGame">Breakout Game</router-link>
+          <router-link to="/breakout">Breakout Game</router-link>
           <router-link to="/Astucia-Naval">Astucia Naval</router-link>
         </div>
       </nav>
-      <router-view id="routerView" />
+      <router-view id="routerView" style="margin: 0 auto;" />
     </div>
 
   </div>
@@ -64,10 +64,5 @@ nav a {
 
 nav a.router-link-exact-active {
   color: #42b983;
-}
-
-#routerView {
-  margin: 0 auto;
-  margin: 10px;
 }
 </style>

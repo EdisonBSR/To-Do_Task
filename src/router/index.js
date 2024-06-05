@@ -1,7 +1,7 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import HomeView from "../views/HomeView.vue";
-import BreakoutView from "../views/BreakoutView.vue";
+import BreakoutView from "@/views/BreakoutView.vue";
 import ChatView from "../views/ChatView.vue";
 import WeatherView from "@/views/WeatherView.vue";
 import BattleView from "@/views/BattleView.vue";
@@ -14,7 +14,7 @@ const routes = [
     component: HomeView,
   },
   {
-    path: "/breakout-Game",
+    path: "/breakout",
     name: "breakout",
     component: BreakoutView,
   },

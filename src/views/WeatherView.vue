@@ -29,6 +29,7 @@ export default {
 <style>
 #jumbotron {
     text-align: center;
+    margin: 10px;
 }
 
 

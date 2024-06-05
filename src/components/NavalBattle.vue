@@ -67,6 +67,7 @@ import io from "socket.io-client"
 export default {
     name: "NavalBattle",
     data() {
+        //La variable espC hace referencia a los espectadores cuando se inicia mas de dos conexiones y reconocer que existen ya los dos jugadores para registraslo.
         return {
             socket: io('localhost:3002'),
             nickNamePlayer: "",
@@ -80,8 +81,6 @@ export default {
             score: 0,
             startShotter: false,
             ID_BOAT: "bs",
-            FORM1: document.getElementById("form-1"),
-            USER1: document.getElementById("user-1")
         }
     },
     mounted() {
@@ -93,7 +92,7 @@ export default {
         }
         this.socket.on("new player", (user1, user2) => {
             if (user1 != "" && user2 != "") {
-                // alert("usuarios completos");
+                alert("usuarios completos");
                 this.espC = "Espectador";
                 this.player1 = user1;
                 this.player2 = user2;
@@ -101,18 +100,17 @@ export default {
                 const SPAN_PLAYER2 = document.getElementById("spanPlayer2");
                 const INPUT_PLAYER = document.getElementById("user-1");
                 const NAME = document.getElementById("inputName");
-                const BOAT_ENEMY = document.getElementById("enemy-boat");
-                INPUT_PLAYER.placeholder = "";
-                INPUT_PLAYER.disabled = true;
-                INPUT_PLAYER.style.background = "transparent";
+                document.getElementById("enemy-boat").remove()
+                INPUT_PLAYER.remove()
+                document.getElementById("form-1").remove()
                 SPAN_PLAYER1.innerText = this.player1;
                 SPAN_PLAYER2.innerText = this.player2;
                 SPAN_PLAYER2.style.color = "black";
                 NAME.disabled = true;
                 NAME.style.background = "transparent";
                 NAME.style.border = 0;
-                BOAT_ENEMY.style.color = "transparent";
-                this.socket.emit("load player", this.espC);
+
+                // this.socket.emit("load player", this.espC);
             } else if (user1 != "") {
                 this.player2 = user1;
                 const SPAN_PLAYER2 = document.getElementById("spanPlayer2");
@@ -149,9 +147,12 @@ export default {
             if (user == this.player1) {
                 console.log(`Ingreso ${this.player1}`);
                 if (point == 1) {
-                    const POINTS_PLAYER1 = document.getElementById("scorePlayer1");
-                    this.score += point;
-                    POINTS_PLAYER1.innerText = `${this.score}`;
+                    if (this.espC == "") {
+                        const POINTS_PLAYER1 = document.getElementById("scorePlayer1");
+                        this.score += point;
+                        POINTS_PLAYER1.innerText = `${this.score}`;
+                    }
+
                     this.good(row, column, user,);
                 } else {
                     this.fail(row, column, user,);
@@ -289,24 +290,17 @@ export default {
 <style scoped>
 @import url("https://fonts.googleapis.com/icon?family=Material+Icons");
 
-body {
-    display: flex;
-    flex-direction: row;
-}
-
-#container {
-    margin: 10px;
-    /* border: 1px solid black; */
-}
-
 #spanPlayer2 {
     text-align: center;
     font-style: oblique;
     color: rgba(222, 48, 48, 0.9);
 }
 
+
+
 #container-Table2>table {
-    margin-top: 90px;
+    /* margin-top: 60px; */
+    margin-right: 30px;
 }
 
 form {
@@ -323,6 +317,7 @@ form {
 .table-bordered {
     width: 500px;
     height: 450px;
+    margin-top: 20px;
 }
 
 
@@ -373,12 +368,20 @@ form {
 }
 
 #sendStartGame {
-    margin: auto;
     width: 80px;
-    padding: 5px;
-    margin-left: 20px;
-    margin-right: 20px;
     color: #4e4e56;
     text-align: center;
+
+}
+
+#routerView {
+    display: flex;
+    flex-direction: row;
+
+}
+
+#container-naval-battle {
+    display: flex;
+    align-items: stretch;
 }
 </style>

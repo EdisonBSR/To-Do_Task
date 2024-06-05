@@ -2,7 +2,10 @@
     <div class="row">
         <div class="col-6 col-md-4 list-user">
             <p>Usuarios</p>
-            <ul id="usersOnLines" class="list-group"></ul>
+            <ul id="usersOnLines" class="list-group">
+                <!-- <li v-for="(user, index) in this.userOnLine" :key="index">
+                    {{ user }}</li> -->
+            </ul>
         </div>
         <div class="col-md-8">
             <div id="chat">SOCKET.IO CHAT</div>
